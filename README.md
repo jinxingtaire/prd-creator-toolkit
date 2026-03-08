@@ -63,7 +63,7 @@
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/yourusername/prd-creator-toolkit.git
+git clone https://github.com/jinxingtaire/prd-creator-toolkit.git
 cd prd-creator-toolkit
 ```
 
@@ -92,11 +92,19 @@ cp -r templates/prototypes your-project/
 
 ## 🎨 在线演示
 
+### 🌐 在线体验
+
+**立即体验交互式原型**：[https://jinxingtaire.github.io/prd-creator-toolkit/demo/](https://jinxingtaire.github.io/prd-creator-toolkit/demo/)
+
+无需下载，直接在浏览器中查看所有原型效果！
+
+---
+
 ### 示例1：概念介绍原型
 
 展示市场数据、用户画像、竞品分析
 
-![概念介绍](docs/screenshots/01-concept.gif)
+👉 [在线查看](https://jinxingtaire.github.io/prd-creator-toolkit/demo/01-什么是拼豆.html)
 
 **特点**：
 - 📊 数据卡片动态展示
@@ -107,7 +115,7 @@ cp -r templates/prototypes your-project/
 
 展示核心功能和特效
 
-![功能展示](docs/screenshots/02-features.gif)
+👉 [在线查看](https://jinxingtaire.github.io/prd-creator-toolkit/demo/02-稀有豆子系统.html)
 
 **特点**：
 - ✨ CSS3 动画效果（渐变、闪光、发光）
@@ -118,7 +126,7 @@ cp -r templates/prototypes your-project/
 
 展示完整界面布局（支持横屏/竖屏）
 
-![界面设计](docs/screenshots/03-ui.gif)
+👉 [在线查看](https://jinxingtaire.github.io/prd-creator-toolkit/demo/03-拼豆世界专区.html)
 
 **特点**：
 - 📱 响应式设计
@@ -129,7 +137,7 @@ cp -r templates/prototypes your-project/
 
 展示商业化转化场景
 
-![诱单场景](docs/screenshots/04-conversion.gif)
+👉 [在线查看](https://jinxingtaire.github.io/prd-creator-toolkit/demo/04-VIP诱单场景.html)
 
 **特点**：
 - 💰 4个核心诱单场景
@@ -442,9 +450,7 @@ git push origin feature/your-feature
 
 ## 📮 联系方式
 
-- **GitHub Issues**: [提交问题](https://github.com/yourusername/prd-creator-toolkit/issues)
-- **Email**: your.email@example.com
-- **Twitter**: @yourtwitter
+- **GitHub Issues**: [提交问题](https://github.com/jinxingtaire/prd-creator-toolkit/issues)
 
 ---
 
@@ -452,7 +458,7 @@ git push origin feature/your-feature
 
 如果这个项目对你有帮助，请给一个 Star ⭐️
 
-[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/prd-creator-toolkit&type=Date)](https://star-history.com/#yourusername/prd-creator-toolkit&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=jinxingtaire/prd-creator-toolkit&type=Date)](https://star-history.com/#jinxingtaire/prd-creator-toolkit&Date)
 
 ---
 
