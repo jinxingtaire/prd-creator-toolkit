@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRD Creator Toolkit - 在线演示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .demo-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .demo-card h3 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .demo-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .demo-card .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .demo-card .btn:hover {
+            opacity: 0.9;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 2px solid white;
+            padding-bottom: 2px;
+        }
+
+        .footer a:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .header p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 PRD Creator Toolkit</h1>
+            <p>交互式原型在线演示</p>
+        </div>
+
+        <div class="demo-grid">
+            <div class="demo-card">
+                <h3>01 - 概念介绍</h3>
+                <p>展示像素创作的概念、市场数据和工作流程对比。包含交互式像素网格演示。</p>
+                <a href="01-什么是拼豆.html" class="btn">查看演示 →</a>
+            </div>
+
+            <div class="demo-card">
+                <h3>02 - 稀有豆子系���</h3>
+                <p>展示5种特效豆子（渐变、闪光、发光、彩虹）的 CSS3 动画效果，以及普通用户 vs VIP 用户的对比。</p>
+                <a href="02-稀有豆子系统.html" class="btn">查看演示 →</a>
+            </div>
+
+            <div class="demo-card">
+                <h3>03 - 拼豆世界专区</h3>
+                <p>横屏界面设计，展示完整的社区专区布局、瀑布流展示和标签筛选功能。</p>
+                <a href="03-拼豆世界专区.html" class="btn">查看演示 →</a>
+            </div>
+
+            <div class="demo-card">
+                <h3>04 - VIP诱单场景</h3>
+                <p>展示4个关键的商业化转化场景：创作完成、稀有豆子、教程下载、二创限制。</p>
+                <a href="04-VIP诱单场景.html" class="btn">查看演示 →</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>
+                <a href="https://github.com/jinxingtaire/prd-creator-toolkit" target="_blank">
+                    ⭐ 在 GitHub 上查看完整项目
+                </a>
+            </p>
+            <p style="margin-top: 20px; opacity: 0.8;">
+                这些原型展示了如何将传统静态 PRD 升级为文字+交互式原型的沉浸式汇报体验
+            </p>
+        </div>
+    </div>
+</body>
+</html>

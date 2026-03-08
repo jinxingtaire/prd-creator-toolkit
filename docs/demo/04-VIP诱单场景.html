@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP诱单场景 - 横屏展示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+            font-size: 36px;
+        }
+        .scenarios {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+        .scenario-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .tablet-frame {
+            width: 640px;
+            height: 480px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+            position: relative;
+        }
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+        .modal {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            animation: modalSlideUp 0.3s ease;
+        }
+        @keyframes modalSlideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .modal-title {
+            font-size: 26px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .comparison-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .comparison-item {
+            text-align: center;
+        }
+        .comparison-label {
+            font-size: 15px;
+            color: #999;
+            margin-bottom: 12px;
+        }
+        .comparison-preview {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 12px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+        }
+        .preview-normal {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+        }
+        .preview-vip {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .preview-vip::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 2s infinite;
+        }
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        .feature-list {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .feature-item {
+            padding: 10px 0;
+            font-size: 16px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .feature-icon {
+            font-size: 20px;
+        }
+        .price-tag {
+            text-align: center;
+            margin: 25px 0;
+        }
+        .price-original {
+            font-size: 16px;
+            color: #999;
+            text-decoration: line-through;
+        }
+        .price-current {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin: 8px 0;
+        }
+        .price-desc {
+            font-size: 14px;
+            color: #666;
+        }
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        .btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #666;
+        }
+        .scenario-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 20px;
+        }
+        .toast {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.85);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 24px;
+            font-size: 16px;
+            text-align: center;
+            animation: toastFadeIn 0.3s ease;
+            max-width: 80%;
+        }
+        @keyframes toastFadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+        .bean-selector {
+            background: white;
+            border-radius: 24px 24px 0 0;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px;
+            box-shadow: 0 -6px 16px rgba(0,0,0,0.1);
+        }
+        .bean-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .bean-item {
+            text-align: center;
+        }
+        .bean-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 10px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            position: relative;
+        }
+        .bean-locked {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        .bean-name {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+        .bean-price {
+            font-size: 13px;
+            color: #667eea;
+            font-weight: bold;
+        }
+        .content-bg {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 40px;
+        }
+        .artwork-preview {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+        }
+        .artwork-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .artwork-author {
+            font-size: 16px;
+            color: #999;
+            margin-bottom: 25px;
+        }
+        .artwork-stats {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .stat-label {
+            font-size: 13px;
+            color: #999;
+            margin-top: 4px;
+        }
+        .accessories-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+        .accessories-label {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .accessories-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        .accessory-item {
+            font-size: 40px;
+            text-align: center;
+        }
+        .accessory-locked {
+            opacity: 0.3;
+        }
+        .info-box {
+            background: #fff3cd;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            color: #856404;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>VIP诱单场景设计（横屏展示）</h1>
+
+        <div class="scenarios">
+            <!-- 场景1：完成拼豆后 -->
+            <div class="scenario-wrapper">
+                <div class="tablet-frame">
+                    <div style="height: 100%; background: linear-gradient(135deg, #ffd93d 0%, #ff6b6b 100%); display: flex; align-items: center; justify-content: center; font-size: 120px;">
+                        🎨
+                    </div>
+                    <div class="modal-overlay">
+                        <div class="modal">
+                            <div class="modal-title">🎉 恭喜完成作品！</div>
+                            <div class="comparison-box">
+                                <div class="comparison-item">
+                                    <div class="comparison-label">你的作品</div>
+                                    <div class="comparison-preview preview-normal">❤️</div>
+                                    <div style="font-size: 14px; color: #999;">普通白框</div>
+                                </div>
+                                <div class="comparison-item">
+                                    <div class="comparison-label">VIP作品</div>
+                                    <div class="comparison-preview preview-vip">❤️</div>
+                                    <div style="font-size: 14px; color: #667eea; font-weight: bold;">彩虹边框✨</div>
+                                </div>
+                            </div>
+                            <div class="feature-list">
+                                <div class="feature-item">
+                                    <span class="feature-icon">✨</span>
+                                    <span>无限使用稀有豆子</span>
+                                </div>
+                                <div class="feature-item">
+                                    <span class="feature-icon">🌈</span>
+                                    <span>动态彩虹边框</span>
+                                </div>
+                                <div class="feature-item">
+                                    <span class="feature-icon">🔥</span>
+                                    <span>作品优先推荐</span>
+                                </div>
+                            </div>
+                            <div class="price-tag">
+                                <div class="price-original">原价 29元/月</div>
+                                <div class="price-current">9.9元</div>
+                                <div class="price-desc">体验7天VIP</div>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-secondary">暂不升级</button>
+                                <button class="btn btn-primary">立即升级</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="scenario-title">场景1：完成拼豆后弹窗对比</div>
+            </div>
+
+            <!-- 场景2：使用稀有豆子时 -->
+            <div class="scenario-wrapper">
+                <div class="tablet-frame">
+                    <div style="height: 100%; background: #f5f5f5; padding: 30px;">
+                        <div style="text-align: center; margin-top: 60px;">
+                            <div style="font-size: 80px; margin-bottom: 25px;">🎨</div>
+                            <div style="font-size: 22px; font-weight: bold; margin-bottom: 12px;">正在创作中...</div>
+                        </div>
+                    </div>
+                    <div class="bean-selector">
+                        <div style="font-size: 18px; font-weight: bold; margin-bottom: 12px;">选择豆子</div>
+                        <div class="bean-grid">
+                            <div class="bean-item">
+                                <div class="bean-icon" style="background: #ff6b6b;">●</div>
+                                <div class="bean-name">普通豆</div>
+                                <div class="bean-price">免费</div>
+                            </div>
+                            <div class="bean-item">
+                                <div class="bean-icon" style="background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%);">
+                                    ●
+                                    <div class="bean-locked">🔒</div>
+                                </div>
+                                <div class="bean-name">渐变豆</div>
+                                <div class="bean-price">10钻/颗</div>
+                            </div>
+                            <div class="bean-item">
+                                <div class="bean-icon" style="background: #ffd93d; box-shadow: 0 0 20px rgba(255, 217, 61, 0.6);">
+                                    ●
+                                    <div class="bean-locked">🔒</div>
+                                </div>
+                                <div class="bean-name">闪光豆</div>
+                                <div class="bean-price">20钻/颗</div>
+                            </div>
+                            <div class="bean-item">
+                                <div class="bean-icon" style="background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 25%, #4ecdc4 50%, #667eea 75%, #ff6b6b 100%); background-size: 200% 200%;">
+                                    ●
+                                    <div class="bean-locked">🔒</div>
+                                </div>
+                                <div class="bean-name">彩虹豆</div>
+                                <div class="bean-price">VIP专属</div>
+                            </div>
+                        </div>
+                        <div class="info-box">
+                            💎 升级VIP，所有稀有豆子无限免费使用
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">
+                            升级VIP解锁全部
+                        </button>
+                    </div>
+                </div>
+                <div class="scenario-title">场景2：使用稀有豆子时的限制提示</div>
+            </div>
+
+            <!-- 场景3：下载教程时 -->
+            <div class="scenario-wrapper">
+                <div class="tablet-frame">
+                    <div class="content-bg" style="background: white;">
+                        <div class="artwork-preview">
+                            🌸
+                        </div>
+                        <div class="artwork-title">樱花盛开</div>
+                        <div class="artwork-author">by @花花世界</div>
+                        <div class="artwork-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">❤️ 856</div>
+                                <div class="stat-label">点赞</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">📥 1.2k</div>
+                                <div class="stat-label">下载</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="width: 300px;">
+                            📥 下载教程
+                        </button>
+                    </div>
+                    <div class="toast">
+                        今日免费下载次数已用完（3/3）<br>
+                        升级VIP，无限下载所有教程
+                    </div>
+                </div>
+                <div class="scenario-title">场景3：下载教程次数限制</div>
+            </div>
+
+            <!-- 场景4：二创作品时 -->
+            <div class="scenario-wrapper">
+                <div class="tablet-frame">
+                    <div class="content-bg" style="background: white;">
+                        <div style="font-size: 20px; font-weight: bold; margin-bottom: 25px;">二创作品</div>
+                        <div class="artwork-preview" style="background: linear-gradient(135deg, #ff6b6b 0%, #764ba2 100%); width: 200px; height: 200px; font-size: 80px;">
+                            ❤️
+                        </div>
+                        <div class="accessories-box" style="width: 400px;">
+                            <div class="accessories-label">可用配饰：</div>
+                            <div class="accessories-grid">
+                                <div class="accessory-item">👑</div>
+                                <div class="accessory-item">🎀</div>
+                                <div class="accessory-item accessory-locked">✨</div>
+                                <div class="accessory-item accessory-locked">🌟</div>
+                            </div>
+                            <div style="font-size: 13px; color: #999; margin-top: 12px; text-align: center;">
+                                基础配饰 2个 | VIP配饰 🔒
+                            </div>
+                        </div>
+                        <div class="info-box" style="width: 400px;">
+                            今日二创次数：5/5<br>
+                            升级VIP解锁无限二创+全部配饰
+                        </div>
+                        <button class="btn btn-primary" style="width: 300px;">
+                            升级VIP
+                        </button>
+                    </div>
+                </div>
+                <div class="scenario-title">场景4：二创次数和配饰限制</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; color: #666;">
+        <p style="font-size: 20px; font-weight: bold; margin-bottom: 12px;">横屏展示 (640×480)</p>
+        <p style="font-size: 15px; margin-bottom: 8px;">✅ 4个核心诱单场景 - 在用户最想要的时刻转化</p>
+        <p style="font-size: 15px; margin-bottom: 8px;">✅ 稀有豆子是核心武器 - 视觉差异明显</p>
+        <p style="font-size: 15px; margin-bottom: 8px;">✅ 预期VIP转化率 3%+ - 从0.18%提升16倍</p>
+    </div>
+</body>
+</html>
